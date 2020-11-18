@@ -1,15 +1,20 @@
-#Spec
+# Spec
+
 A Simple Specification library for PHP
 
-[![Build Status](https://travis-ci.org/kayladnls/spec.svg?branch=master)](https://travis-ci.org/kayladnls/spec) [![Code Climate](https://codeclimate.com/github/kayladnls/spec/badges/gpa.svg)](https://codeclimate.com/github/kayladnls/spec)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
+[![Build](https://github.com/bakame-php/spec/workflows/build/badge.svg)](https://github.com/bakame-php/spec/actions?query=workflow%3A%22build%22)
+
+This is a fork of [kayladnls/spec](https://github.com/greydnls/spec).
 
 ### Installation
 
 ```
-composer require kayladnls/spec
+composer require bakame/spec
 ```
 
 ### What is it?
+
 > "the specification pattern is a particular software design pattern, 
 whereby business rules can be recombined by chaining the business 
 rules together using boolean logic. The pattern is frequently used in 
@@ -17,43 +22,31 @@ the context of domain-driven design." -- [wikipedia](https://en.wikipedia.org/wi
 
 ### How do I use it?
 
-#### Use the builder
-```php
-$all_spec = Kayladnls/Spec/Builder::all(new MustHaveFourLegs(), new MustHaveStripesSpec());
+~~~php
+<?php
 
-$all_spec->isSatisfiedBy($elephpant) //False 
-$all_spec->isSatisfiedBy($zebra)     // True
+use App\Specification\MustHaveFourLegs;
+use App\Specification\MustHaveStripesSpec;
+use App\Specification\IsLizardSpec;
+use Bakame\Specification\All;
+use Bakame\Specification\Any;
+use Bakame\Specification\None;
 
-$any_spec = Kayladnls/Spec/Builder::any($all_spec, new IsLizardSpec());
-$any_spec->isSatisfiedBy($iguana) // True
-```
+$allSpecs = All::fromSpecifications([new MustHaveFourLegs(), new MustHaveStripesSpec()]);
+$noneSpec = new None(new IsLizardSpec(), new MustHaveStripesSpec());
+$anySpec = (new Any(new IsLizardSpec()))->withAddedSpecification($allSpecs);
 
-Or, you can use functions if that's what tickles your fancy. 
-
-#### Function Based
-
-```php
-$all_spec = Kayladnls/Spec/all([new MustHaveFourLegs(), new MustHaveStripesSpec()]);
-
-Kayladnls/Spec/satisfies($elephpant, $all_spec) //False 
-Kayladnls/Spec/satisfies($zebra, $all_spec) //True 
-
-$any_spec = Kayladnls/Spec/any([$all_spec, new IsLizardSpec()]);
-Kayladnls/Spec/satisfies($iguana, $any_spec) // True
-
-$none_spec = Kayladnls/Spec/none([new MustHaveFourLegs(), new MustHaveSpotsSpec()]);
-Kayladnls/Spec/satisfies($kangaroo, $none_spec) // true
-Kayladnls/Spec/satisfies($cheetah, $none_spec) // false
-```
-
-### Example
-```php
-if ($all_spec->isSatisfiedBy($zebra)){
+if ($allSpecs->isSatisfiedBy($zebra)) {
 	// Do Some cool Zebra Stuff here. 
+} 
+
+if ($anySpec->isSatisfiedBy($iguana)) {
+    // Do Some cool With the Iguana too.
 }
 
-// Function Based
-if (satisfies($iguana, $any_spec)){
-	// do some cool lizard-based stuff here. 
+if ($noneSpec->isSatisfiedBy($elephpant)){ 
+    //$elephpant only loves PHP!
 }
-```
+~~~
+
+Happy Coding!

@@ -1,4 +1,16 @@
+formatter.name: pretty
+suites:
+    core:
+        namespace: Bakame\Specification
+        spec_prefix: null
+        spec_path: src
+        psr4_prefix: Bakame\Specification
 extensions:
-    - PhpSpec\NyanFormattersExtension\Extension
-
-formatter.name: nyan.cat
+  FriendsOfPhpSpec\PhpSpec\CodeCoverage\CodeCoverageExtension:
+    format:
+      - html
+    output: "build/coverage"
+    blacklist_files:
+      - "src/AllSpec.php"
+      - "src/AnySpec.php"
+      - "src/NoneSpec.php"
