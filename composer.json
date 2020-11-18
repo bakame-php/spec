@@ -1,28 +1,55 @@
 {
-  "name": "kayladnls/spec",
+  "name": "bakame/spec",
   "description": "Specification in PHP",
   "license": "MIT",
   "authors": [
     {
       "name": "Kayla Daniels",
       "email": "kayladnls@gmail.com"
+    },
+    {
+      "name": "Ignace Nyamagana Butera",
+      "email": "nyamsprod@gmail.com"
     }
   ],
-  "config": {
-    "bin-dir": "bin"
-  },
   "minimum-stability": "stable",
   "autoload": {
     "psr-4": {
-      "Kayladnls\\Spec\\": "src/"
-    },
-    "files": ["src/helper.php"]
+      "Bakame\\Specification\\": "src/"
+    }
   },
   "require" : {
-    "php": ">=5.5"
+    "php": " ^7.2 || ^8.0"
   },
   "require-dev": {
-    "phpspec/phpspec": "^2.2",
-    "phpspec/nyan-formatters": "~1.0"
+    "friends-of-phpspec/phpspec-code-coverage": "^5.0",
+    "friendsofphp/php-cs-fixer": "^2.16",
+    "phpspec/phpspec": "^6.0",
+    "phpstan/phpstan": "^0.12",
+    "phpstan/phpstan-strict-rules": "^0.12"
+  },
+  "scripts": {
+    "phpcs": "php-cs-fixer fix -vvv --diff --dry-run --allow-risky=yes --ansi",
+    "phpstan": "phpstan analyse -l max -c phpstan.neon src --ansi",
+    "phpspec": "phpspec run",
+    "test": [
+      "@phpcs",
+      "@phpstan",
+      "@phpspec"
+    ]
+  },
+  "scripts-descriptions": {
+    "phpcs": "Runs coding style test suite",
+    "phpstan": "Runs complete codebase static analysis",
+    "phpspec": "Runs PHP Spec testing",
+    "test": "Runs the complete test suite"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.x-dev"
+    }
+  },
+  "config": {
+    "sort-packages": true
   }
 }

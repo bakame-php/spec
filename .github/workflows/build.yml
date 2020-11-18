@@ -1,0 +1,31 @@
+---
+name: build
+on:
+    push: ~
+    pull_request: ~
+
+jobs:
+    phpunit:
+        name: PHPUnit tests on ${{ matrix.php }} ${{ matrix.composer-flags }}
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                php: [ '7.2', '7.3', '7.4' ]
+                composer-flags: [ '' ]
+                include:
+                    - php: '8.0'
+                      coverage: none
+                      composer-flags: '--ignore-platform-req=php'
+        steps:
+            - uses: actions/checkout@v2
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ matrix.php }}
+                  coverage: pcov
+                  tools: composer:v2, phpspec
+            - run: composer update --no-progress ${{ matrix.composer-flags }}
+            - run: vendor/bin/php-cs-fixer fix -vvv --diff --dry-run --allow-risky=yes --ansi
+              if: ${{ matrix.php == '7.4' }}
+            - run: vendor/bin/phpstan analyse -l max -c phpstan.neon src --ansi
+              if: ${{ matrix.php == '7.4' }}
+            - run: vendor/bin/phpspec run

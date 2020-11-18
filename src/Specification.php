@@ -1,10 +1,11 @@
-<?php namespace Kayladnls\Spec;
+<?php
+
+namespace Bakame\Specification;
 
 interface Specification
 {
     /**
-     * @param $argument
-     * @return boolean
+     * @param mixed $subject the item that needs to be validated
      */
-    public function isSatisfiedBy($argument);
+    public function isSatisfiedBy($subject): bool;
 }

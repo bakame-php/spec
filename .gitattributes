@@ -1,0 +1,12 @@
+* text=auto
+
+/.editorconfig  export-ignore
+/.gitattributes export-ignore
+/.github        export-ignore
+/.gitignore     export-ignore
+/.php_cs        export-ignore
+/phpstan.neon   export-ignore
+/README.md      export-ignore
+/phpspec.yml    export-ignore
+/CHANGELOG.md   export-ignore
+/**/*Test.php   export-ignore
