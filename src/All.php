@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Bakame\Specification;
 
-use Countable;
 use function count;
 
-final class All implements Specification, Countable
+final class All implements Composite
 {
     /**
      * @var array<Specification>

@@ -25,6 +25,11 @@ final class AnySpec extends ObjectBehavior
         $this->shouldBeAnInstanceOf(Specification::class);
     }
 
+    public function it_implements_the_composite_interface(): void
+    {
+        $this->shouldBeAnInstanceOf(Composite::class);
+    }
+
     public function it_implements_the_countable_interface(): void
     {
         $this->shouldBeAnInstanceOf(Countable::class);
