@@ -17,7 +17,7 @@ final class Any implements Composite, Countable, IteratorAggregate
     /**
      * @var array<Specification>
      */
-    private $specifications;
+    private array $specifications;
 
     /**
      * @param iterable<Specification> $specifications

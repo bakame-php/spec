@@ -7,6 +7,12 @@ A Simple Specification library for PHP
 
 This is a fork of [kayladnls/spec](https://github.com/greydnls/spec).
 
+### System Requirements
+
+You need:
+
+- **PHP >= 7.4** but the latest stable version of PHP is recommended
+
 ### Installation
 
 ```
