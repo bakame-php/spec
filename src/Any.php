@@ -7,6 +7,7 @@ namespace Bakame\Specification;
 use Countable;
 use Iterator;
 use IteratorAggregate;
+use function array_merge;
 use function count;
 
 /**
@@ -47,10 +48,10 @@ final class Any implements Composite, Countable, IteratorAggregate
         }
     }
 
-    public function withAddedSpecification(Specification $specification): self
+    public function withAddedSpecification(Specification $specification, Specification ...$specifications): self
     {
         $clone = clone $this;
-        $clone->specifications[] = $specification;
+        $clone->specifications = array_merge($clone->specifications, [$specification], $specifications);
 
         return $clone;
     }
