@@ -65,7 +65,7 @@ final class AnySpec extends ObjectBehavior
         $spec1->isSatisfiedBy('anything')->willReturn(false);
         $spec2->isSatisfiedBy('anything')->willReturn(true);
 
-        $this->beConstructedThrough('fromSpecifications', [[$spec1, $spec2]]);
+        $this->beConstructedThrough('fromList', [[$spec1, $spec2]]);
 
         $this->isSatisfiedBy('anything')->shouldEqual(true);
     }
@@ -80,7 +80,7 @@ final class AnySpec extends ObjectBehavior
 
     public function it_can_only_be_constructed_with_specs(): void
     {
-        $this->beConstructedThrough('fromSpecifications', [['yellow', 'submarine']]);
+        $this->beConstructedThrough('fromList', [['yellow', 'submarine']]);
 
         $this->shouldThrow(TypeError::class);
     }

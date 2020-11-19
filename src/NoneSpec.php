@@ -62,14 +62,14 @@ final class NoneSpec extends ObjectBehavior
     {
         $spec->isSatisfiedBy('anything')->willReturn(true);
 
-        $this->beConstructedThrough('fromSpecifications', [[$spec]]);
+        $this->beConstructedThrough('fromList', [[$spec]]);
 
         $this->isSatisfiedBy('anything')->shouldEqual(false);
     }
 
     public function it_can_only_be_constructed_with_specs(): void
     {
-        $this->beConstructedThrough('fromSpecifications', [['yellow', 'submarine']]);
+        $this->beConstructedThrough('fromList', [['yellow', 'submarine']]);
 
         $this->shouldThrow(TypeError::class);
     }

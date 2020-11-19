@@ -23,7 +23,7 @@ final class None implements Composite, Countable, IteratorAggregate
     /**
      * @param iterable<Specification> $specifications
      */
-    public static function fromSpecifications(iterable $specifications): self
+    public static function fromList(iterable $specifications): self
     {
         return new self(...$specifications);
     }
