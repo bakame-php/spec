@@ -2,6 +2,9 @@ includes:
   - vendor/phpstan/phpstan-strict-rules/rules.neon
 parameters:
   ignoreErrors:
+    - message: '#Return type \(Bakame\\Specification\\(.*)\) of method Bakame\\Specification\\(.*)::withAddedSpecification\(\) should be covariant with return type \(static\(Bakame\\Specification\\Composite\)\) of method Bakame\\Specification\\Composite::withAddedSpecification\(\)#'
+      paths:
+        - src/*
   reportUnmatchedIgnoredErrors: true
   excludes_analyse:
     - src/*Spec.php
