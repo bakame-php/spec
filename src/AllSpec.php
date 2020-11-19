@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Bakame\Specification;
 
 use Countable;
+use IteratorAggregate;
 use PhpSpec\ObjectBehavior;
 use TypeError;
 
@@ -33,7 +34,11 @@ final class AllSpec extends ObjectBehavior
     public function it_implements_the_countable_interface(): void
     {
         $this->shouldBeAnInstanceOf(Countable::class);
-        $this->count()->shouldBe(2);
+    }
+
+    public function it_implements_the_iterator_aggregate_interface(): void
+    {
+        $this->shouldBeAnInstanceOf(IteratorAggregate::class);
     }
 
     public function it_can_accept_more_specifications(Specification $spec1, Specification $spec2, Specification $spec3): void

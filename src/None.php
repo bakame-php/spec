@@ -4,9 +4,15 @@ declare(strict_types=1);
 
 namespace Bakame\Specification;
 
+use Countable;
+use Iterator;
+use IteratorAggregate;
 use function count;
 
-final class None implements Composite
+/**
+ * @implements IteratorAggregate<Specification>
+ */
+final class None implements Composite, Countable, IteratorAggregate
 {
     /**
      * @var array<Specification>
@@ -29,6 +35,16 @@ final class None implements Composite
     public function count(): int
     {
         return count($this->specifications);
+    }
+
+    /**
+     * @return Iterator<Specification>
+     */
+    public function getIterator(): Iterator
+    {
+        foreach ($this->specifications as $specification) {
+            yield $specification;
+        }
     }
 
     public function withAddedSpecification(Specification $specification): self
