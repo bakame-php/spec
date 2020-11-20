@@ -13,7 +13,7 @@ final class AnySpec extends ObjectBehavior
 {
     public function let(Specification $spec1, Specification $spec2): void
     {
-        $this->beConstructedWith($spec1, $spec2);
+        $this->beConstructedThrough('fromVariadic', [$spec1, $spec2]);
     }
 
     public function it_is_initializable(): void

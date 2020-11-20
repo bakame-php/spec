@@ -13,7 +13,7 @@ final class NoneSpec extends ObjectBehavior
 {
     public function let(Specification $spec): void
     {
-        $this->beConstructedWith($spec);
+        $this->beConstructedThrough('fromVariadic', [$spec]);
     }
 
     public function it_is_initializable(): void

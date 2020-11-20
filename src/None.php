@@ -28,7 +28,15 @@ final class None implements Composite, Countable, IteratorAggregate
         return new self(...$specifications);
     }
 
-    public function __construct(Specification ...$specifications)
+    public static function fromVariadic(Specification ...$specifications): self
+    {
+        $spec = new self();
+        $spec->specifications = $specifications;
+
+        return $spec;
+    }
+
+    private function __construct(Specification ...$specifications)
     {
         $this->specifications = $specifications;
     }

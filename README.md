@@ -39,8 +39,8 @@ use Bakame\Specification\Any;
 use Bakame\Specification\None;
 
 $allSpecs = All::fromList([new MustHaveFourLegs(), new MustHaveStripesSpec()]);
-$anySpec = (new Any(new IsLizardSpec()))->withAddedSpecification($allSpecs);
-$noneSpec = new None(new IsLizardSpec(), new MustHaveStripesSpec());
+$anySpec = Any::fromVariadic(new IsLizardSpec())->withAddedSpecification($allSpecs);
+$noneSpec = None::fromVariadic(new IsLizardSpec(), new MustHaveStripesSpec());
 
 if ($allSpecs->isSatisfiedBy($zebra)) {
 	// Do Some cool Zebra Stuff here. 
