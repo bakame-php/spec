@@ -28,6 +28,9 @@ the context of domain-driven design." -- [wikipedia](https://en.wikipedia.org/wi
 
 ### How do I use it?
 
+Each object added to a `Bakame\Specification\Composite` instance must implement
+the `Bakame\Specification\Specification` interface.
+
 ~~~php
 <?php
 
@@ -38,12 +41,12 @@ use Bakame\Specification\All;
 use Bakame\Specification\Any;
 use Bakame\Specification\None;
 
-$allSpecs = All::fromList([new MustHaveFourLegs(), new MustHaveStripesSpec()]);
-$anySpec = Any::fromVariadic(new IsLizardSpec())->withAddedSpecification($allSpecs);
-$noneSpec = None::fromVariadic(new IsLizardSpec(), new MustHaveStripesSpec());
+$allSpecs = All::fromList(...[new MustHaveFourLegs(), new MustHaveStripesSpec()]);
+$anySpec = Any::fromList(new IsLizardSpec())->withAddedSpecification($allSpecs);
+$noneSpec = None::fromList(new IsLizardSpec(), new MustHaveStripesSpec());
 
 if ($allSpecs->isSatisfiedBy($zebra)) {
-	// Do Some cool Zebra Stuff here. 
+    // Do Some cool Zebra Stuff here. 
 } 
 
 if ($anySpec->isSatisfiedBy($iguana)) {

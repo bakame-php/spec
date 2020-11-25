@@ -6,5 +6,5 @@ namespace Bakame\Specification;
 
 interface Composite extends Specification
 {
-    public function withAddedSpecification(Specification $specification, Specification ...$specifications): self;
+    public function withAddedSpecification(Specification ...$specifications): self;
 }

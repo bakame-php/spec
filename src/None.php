@@ -45,12 +45,14 @@ final class None implements Composite, Countable, IteratorAggregate
         }
     }
 
-    public function withAddedSpecification(Specification $specification, Specification ...$specifications): self
+    public function withAddedSpecification(Specification ...$specifications): self
     {
-        $clone = clone $this;
-        $clone->specifications = array_merge($clone->specifications, [$specification], $specifications);
+        $specifications = array_merge($this->specifications, $specifications);
+        if ($specifications === $this->specifications) {
+            return $this;
+        }
 
-        return $clone;
+        return new self(...$specifications);
     }
 
     public function isSatisfiedBy($subject): bool
