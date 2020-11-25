@@ -20,20 +20,9 @@ final class All implements Composite, Countable, IteratorAggregate
      */
     private array $specifications;
 
-    /**
-     * @param iterable<Specification> $specifications
-     */
-    public static function fromList(iterable $specifications): self
+    public static function fromList(Specification ...$specifications): self
     {
         return new self(...$specifications);
-    }
-
-    public static function fromVariadic(Specification ...$specifications): self
-    {
-        $spec = new self();
-        $spec->specifications = $specifications;
-
-        return $spec;
     }
 
     private function __construct(Specification ...$specifications)

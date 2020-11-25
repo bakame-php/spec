@@ -7,13 +7,12 @@ namespace Bakame\Specification;
 use Countable;
 use IteratorAggregate;
 use PhpSpec\ObjectBehavior;
-use TypeError;
 
 final class AnySpec extends ObjectBehavior
 {
     public function let(Specification $spec1, Specification $spec2): void
     {
-        $this->beConstructedThrough('fromVariadic', [$spec1, $spec2]);
+        $this->beConstructedThrough('fromList', [$spec1, $spec2]);
     }
 
     public function it_is_initializable(): void
@@ -65,7 +64,7 @@ final class AnySpec extends ObjectBehavior
         $spec1->isSatisfiedBy('anything')->willReturn(false);
         $spec2->isSatisfiedBy('anything')->willReturn(true);
 
-        $this->beConstructedThrough('fromList', [[$spec1, $spec2]]);
+        $this->beConstructedThrough('fromList', [$spec1, $spec2]);
 
         $this->isSatisfiedBy('anything')->shouldEqual(true);
     }
@@ -76,12 +75,5 @@ final class AnySpec extends ObjectBehavior
         $spec2->isSatisfiedBy('anything')->willReturn(false);
 
         $this->isSatisfiedBy('anything')->shouldEqual(false);
-    }
-
-    public function it_can_only_be_constructed_with_specs(): void
-    {
-        $this->beConstructedThrough('fromList', [['yellow', 'submarine']]);
-
-        $this->shouldThrow(TypeError::class);
     }
 }
