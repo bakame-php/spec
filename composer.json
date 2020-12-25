@@ -26,16 +26,19 @@
     "friendsofphp/php-cs-fixer": "^2.16",
     "phpspec/phpspec": "^6.0",
     "phpstan/phpstan": "^0.12",
-    "phpstan/phpstan-strict-rules": "^0.12"
+    "phpstan/phpstan-strict-rules": "^0.12",
+    "vimeo/psalm": "^4.3"
   },
   "scripts": {
     "phpcs": "php-cs-fixer fix -vvv --diff --dry-run --allow-risky=yes --ansi",
     "phpstan": "phpstan analyse -l max -c phpstan.neon src --ansi",
+    "psalm": "psalm --show-info=true",
     "phpspec": "phpspec run",
     "test": [
-      "@phpcs",
       "@phpstan",
-      "@phpspec"
+      "@psalm",
+      "@phpspec",
+      "@phpcs"
     ]
   },
   "scripts-descriptions": {
