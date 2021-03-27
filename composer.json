@@ -31,14 +31,15 @@
   },
   "scripts": {
     "phpcs": "php-cs-fixer fix -vvv --diff --dry-run --allow-risky=yes --ansi",
+    "phpcs:fix": "php-cs-fixer fix -vvv --allow-risky=yes --ansi",
     "phpstan": "phpstan analyse -l max -c phpstan.neon src --ansi",
     "psalm": "psalm --show-info=true",
     "phpspec": "phpspec run",
     "test": [
-      "@phpstan",
-      "@psalm",
       "@phpspec",
-      "@phpcs"
+      "@psalm",
+      "@phpstan",
+      "@phpcs:fix"
     ]
   },
   "scripts-descriptions": {

@@ -50,6 +50,16 @@ final class NoneSpec extends ObjectBehavior
         $this->count()->shouldBe(1);
     }
 
+    public function it_can_remove_specifications(Specification $spec, Specification $spec3): void
+    {
+        $newInstance = $this->withAddedSpecification($spec3)->withoutSpecification($spec);
+        $newInstance->shouldBeAnInstanceOf(None::class);
+        $newInstance->count()->shouldBe(1);
+        $this->count()->shouldBe(1);
+        $newInstance->shouldContain($spec3);
+        $newInstance->shouldNotContain($spec);
+    }
+
     public function it_will_pass_with_a_false(Specification $spec): void
     {
         $spec->isSatisfiedBy('anything')->willReturn(false);

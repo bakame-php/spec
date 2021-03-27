@@ -51,6 +51,16 @@ final class AllSpec extends ObjectBehavior
         $this->count()->shouldBe(2);
     }
 
+    public function it_can_remove_specifications(Specification $spec1, Specification $spec2, Specification $spec3): void
+    {
+        $newInstance = $this->withAddedSpecification($spec3)->withoutSpecification($spec2);
+        $newInstance->shouldBeAnInstanceOf(All::class);
+        $newInstance->count()->shouldBe(2);
+        $this->count()->shouldBe(2);
+        $newInstance->shouldContain($spec3);
+        $newInstance->shouldNotContain($spec2);
+    }
+
     public function it_will_pass_with_two_true_values(Specification $spec1, Specification $spec2): void
     {
         $spec1->isSatisfiedBy('anything')->willReturn(true);
