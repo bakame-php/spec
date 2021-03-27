@@ -35,26 +35,26 @@ the `Bakame\Specification\Specification` interface.
 <?php
 
 use App\Specification\MustHaveFourLegs;
-use App\Specification\MustHaveStripesSpec;
-use App\Specification\IsLizardSpec;
+use App\Specification\MustHaveStripes;
+use App\Specification\IsLizard;
 use Bakame\Specification\All;
 use Bakame\Specification\Any;
 use Bakame\Specification\None;
 
-$allSpecs = All::fromList(...[new MustHaveFourLegs(), new MustHaveStripesSpec()]);
-$anySpec = Any::fromList(new IsLizardSpec())->withAddedSpecification($allSpecs);
-$noneSpec = None::fromList(new IsLizardSpec(), new MustHaveStripesSpec());
+$allSpecs = All::fromList(...[new MustHaveFourLegs(), new MustHaveStripes()]);
+$anySpec = Any::fromList(new IsLizard())->withAddedSpecification($allSpecs);
+$noneSpec = None::fromList(new IsLizard(), new MustHaveStripes());
 
 if ($allSpecs->isSatisfiedBy($zebra)) {
-    // Do Some cool Zebra Stuff here. 
+    // Do some cool Zebra stuff here. 
 } 
 
 if ($anySpec->isSatisfiedBy($iguana)) {
-    // Do Some cool With the Iguana too.
+    // Do some cool stuff with the Iguana too.
 }
 
 if ($noneSpec->isSatisfiedBy($elephpant)){ 
-    //$elephpant only loves PHP!
+    //Elephpant only loves PHP!
 }
 ~~~
 
