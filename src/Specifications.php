@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Bakame\Specification;
 
+use Closure;
 use Countable;
 use Iterator;
 use IteratorAggregate;
@@ -82,7 +83,7 @@ final class Specifications implements Countable, IteratorAggregate
      * This method MUST retain the state of the current instance, and return
      * an instance that contains the interval which validate the predicate.
      */
-    public function filter(\Closure $predicate): self
+    public function filter(Closure $predicate): self
     {
         if ([] === $this->specifications) {
             return $this;
@@ -101,7 +102,7 @@ final class Specifications implements Countable, IteratorAggregate
      *
      * @psalm-param Closure(Specification=):Specification $func
      */
-    public function map(\Closure $func): self
+    public function map(Closure $func): self
     {
         return $this->cloneWith(array_map($func, $this->specifications));
     }
