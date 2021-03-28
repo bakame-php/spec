@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Bakame\Specification;
 
-use Countable;
-use IteratorAggregate;
 use PhpSpec\ObjectBehavior;
 
 final class AllSpec extends ObjectBehavior
@@ -28,37 +26,7 @@ final class AllSpec extends ObjectBehavior
     public function it_implements_the_composite_interface(): void
     {
         $this->shouldBeAnInstanceOf(Composite::class);
-    }
-
-    public function it_implements_the_countable_interface(): void
-    {
-        $this->shouldBeAnInstanceOf(Countable::class);
-    }
-
-    public function it_implements_the_iterator_aggregate_interface(): void
-    {
-        $this->shouldBeAnInstanceOf(IteratorAggregate::class);
-    }
-
-    public function it_can_accept_more_specifications(Specification $spec1, Specification $spec2, Specification $spec3): void
-    {
-        $spec1->isSatisfiedBy('anything')->willReturn(true);
-        $spec2->isSatisfiedBy('anything')->willReturn(true);
-
-        $newInstance = $this->withAddedSpecification($spec3);
-        $newInstance->shouldBeAnInstanceOf(All::class);
-        $newInstance->count()->shouldBe(3);
-        $this->count()->shouldBe(2);
-    }
-
-    public function it_can_remove_specifications(Specification $spec1, Specification $spec2, Specification $spec3): void
-    {
-        $newInstance = $this->withAddedSpecification($spec3)->withoutSpecification($spec2);
-        $newInstance->shouldBeAnInstanceOf(All::class);
-        $newInstance->count()->shouldBe(2);
-        $this->count()->shouldBe(2);
-        $newInstance->shouldContain($spec3);
-        $newInstance->shouldNotContain($spec2);
+        $this->specifications()->shouldBeAnInstanceOf(Specifications::class);
     }
 
     public function it_will_pass_with_two_true_values(Specification $spec1, Specification $spec2): void
@@ -74,7 +42,9 @@ final class AllSpec extends ObjectBehavior
         $spec1->isSatisfiedBy('anything')->willReturn(false);
         $spec2->isSatisfiedBy('anything')->willReturn(true);
 
-        $this->beConstructedThrough('fromList', [$spec1, $spec2]);
+        $this->beConstructedThrough('fromSpecifications', [
+            Specifications::fromList($spec1->getWrappedObject(), $spec2->getWrappedObject()),
+        ]);
 
         $this->isSatisfiedBy('anything')->shouldEqual(false);
     }

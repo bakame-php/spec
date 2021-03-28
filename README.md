@@ -42,7 +42,7 @@ use Bakame\Specification\Any;
 use Bakame\Specification\None;
 
 $allSpecs = All::fromList(...[new MustHaveFourLegs(), new MustHaveStripes()]);
-$anySpec = Any::fromList(new IsLizard())->withAddedSpecification($allSpecs);
+$anySpec = Any::fromList(new IsLizard(), $allSpecs);
 $noneSpec = None::fromList(new IsLizard(), new MustHaveStripes());
 
 if ($allSpecs->isSatisfiedBy($zebra)) {

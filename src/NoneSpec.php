@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Bakame\Specification;
 
-use Countable;
-use IteratorAggregate;
 use PhpSpec\ObjectBehavior;
 
 final class NoneSpec extends ObjectBehavior
@@ -28,36 +26,7 @@ final class NoneSpec extends ObjectBehavior
     public function it_implements_the_composite_interface(): void
     {
         $this->shouldBeAnInstanceOf(Composite::class);
-    }
-
-    public function it_implements_the_countable_interface(): void
-    {
-        $this->shouldBeAnInstanceOf(Countable::class);
-    }
-
-    public function it_implements_the_iterator_aggregate_interface(): void
-    {
-        $this->shouldBeAnInstanceOf(IteratorAggregate::class);
-    }
-
-    public function it_can_accept_more_specifications(Specification $spec, Specification $spec2): void
-    {
-        $spec->isSatisfiedBy('anything')->willReturn(true);
-
-        $newInstance = $this->withAddedSpecification($spec2);
-        $newInstance->shouldBeAnInstanceOf(None::class);
-        $newInstance->count()->shouldBe(2);
-        $this->count()->shouldBe(1);
-    }
-
-    public function it_can_remove_specifications(Specification $spec, Specification $spec3): void
-    {
-        $newInstance = $this->withAddedSpecification($spec3)->withoutSpecification($spec);
-        $newInstance->shouldBeAnInstanceOf(None::class);
-        $newInstance->count()->shouldBe(1);
-        $this->count()->shouldBe(1);
-        $newInstance->shouldContain($spec3);
-        $newInstance->shouldNotContain($spec);
+        $this->specifications()->shouldBeAnInstanceOf(Specifications::class);
     }
 
     public function it_will_pass_with_a_false(Specification $spec): void
@@ -71,7 +40,7 @@ final class NoneSpec extends ObjectBehavior
     {
         $spec->isSatisfiedBy('anything')->willReturn(true);
 
-        $this->beConstructedThrough('fromList', [$spec]);
+        $this->beConstructedThrough('fromSpecifications', [Specifications::fromList($spec->getWrappedObject())]);
 
         $this->isSatisfiedBy('anything')->shouldEqual(false);
     }
