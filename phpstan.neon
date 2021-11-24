@@ -3,5 +3,5 @@ includes:
 parameters:
   ignoreErrors:
   reportUnmatchedIgnoredErrors: true
-  excludes_analyse:
+  excludePaths:
     - src/*Spec.php

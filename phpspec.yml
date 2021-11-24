@@ -10,8 +10,6 @@ extensions:
     format:
       - html
     output: "build/coverage"
-    blacklist_files:
-      - "src/AllSpec.php"
-      - "src/AnySpec.php"
-      - "src/NoneSpec.php"
-      - "src/SpecificationsSpec.php"
+    blacklist:
+      - directory: src
+        suffix: "Spec.php"

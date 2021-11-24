@@ -11,7 +11,7 @@ This is a fork of [kayladnls/spec](https://github.com/greydnls/spec).
 
 You need:
 
-- **PHP >= 7.4** but the latest stable version of PHP is recommended
+- **PHP >= 8.0** but the latest stable version of PHP is recommended
 
 ### Installation
 
