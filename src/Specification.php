@@ -7,5 +7,5 @@ interface Specification
     /**
      * @param mixed $subject the item that needs to be validated
      */
-    public function isSatisfiedBy($subject): bool;
+    public function isSatisfiedBy(mixed $subject): bool;
 }

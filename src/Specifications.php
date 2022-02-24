@@ -16,9 +16,7 @@ use function count;
  */
 final class Specifications implements Countable, IteratorAggregate
 {
-    /**
-     * @var array<Specification>
-     */
+    /** @var array<Specification> */
     private array $specifications;
 
     private function __construct(Specification ...$specifications)
@@ -48,30 +46,11 @@ final class Specifications implements Countable, IteratorAggregate
 
     public function withAddedSpecification(Specification ...$specifications): self
     {
-        return $this->cloneWith(array_merge($this->specifications, $specifications));
-    }
-
-    /**
-     * @param array<Specification> $newSpecifications
-     */
-    private function cloneWith(array $newSpecifications): self
-    {
-        if ($newSpecifications === $this->specifications) {
-            return $this;
-        }
-
-        $newInstance = clone $this;
-        $newInstance->specifications = $newSpecifications;
-
-        return $newInstance;
+        return new self(...array_merge($this->specifications, $specifications));
     }
 
     public function withoutSpecification(Specification ...$specifications): self
     {
-        if ([] === $specifications) {
-            return $this;
-        }
-
         return $this->filter(
             fn (Specification $specification): bool => ! in_array($specification, $specifications, true)
         );
@@ -82,14 +61,12 @@ final class Specifications implements Countable, IteratorAggregate
      *
      * This method MUST retain the state of the current instance, and return
      * an instance that contains the interval which validate the predicate.
+     *
+     * @param Closure(Specification, array-key=):bool $predicate
      */
     public function filter(Closure $predicate): self
     {
-        if ([] === $this->specifications) {
-            return $this;
-        }
-
-        return $this->cloneWith(array_filter($this->specifications, $predicate, ARRAY_FILTER_USE_BOTH));
+        return new self(...array_filter($this->specifications, $predicate, ARRAY_FILTER_USE_BOTH));
     }
 
     /**
@@ -100,10 +77,10 @@ final class Specifications implements Countable, IteratorAggregate
      * This method MUST retain the state of the current instance, and return
      * an instance that contains the returned intervals.
      *
-     * @psalm-param Closure(Specification=):Specification $func
+     * @param Closure(Specification=):Specification $func
      */
     public function map(Closure $func): self
     {
-        return $this->cloneWith(array_map($func, $this->specifications));
+        return new self(...array_map($func, $this->specifications));
     }
 }

@@ -22,9 +22,9 @@
     "php": "^8.0"
   },
   "require-dev": {
-    "friends-of-phpspec/phpspec-code-coverage": "^6.0",
+    "friends-of-phpspec/phpspec-code-coverage": "^v6.1.0",
     "friendsofphp/php-cs-fixer": "^3.0",
-    "phpspec/phpspec": "^6.0",
+    "phpspec/phpspec": "^7.1.0",
     "phpstan/phpstan": "^1.0",
     "phpstan/phpstan-strict-rules": "^1.0",
     "vimeo/psalm": "^4.3"
@@ -32,7 +32,7 @@
   "scripts": {
     "phpcs": "php-cs-fixer fix -vvv --diff --dry-run --allow-risky=yes --ansi",
     "phpcs:fix": "php-cs-fixer fix -vvv --allow-risky=yes --ansi",
-    "phpstan": "phpstan analyse -l max -c phpstan.neon src --ansi",
+    "phpstan": "phpstan analyse -c phpstan.neon --ansi",
     "psalm": "psalm --show-info=true",
     "phpspec": "phpspec run",
     "test": [

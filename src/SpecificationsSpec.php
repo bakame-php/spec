@@ -54,7 +54,7 @@ final class SpecificationsSpec extends ObjectBehavior
         $newInstance->shouldBeAnInstanceOf(Specifications::class);
         $newInstance->count()->shouldBe(2);
         $this->count()->shouldBe(2);
-        $newInstance->shouldBe($this);
+        $newInstance->shouldBeLike($this);
     }
 
     public function it_returns_the_same_instance_if_no_specifications_is_submitted_for_removal(Specification $spec): void
@@ -64,7 +64,7 @@ final class SpecificationsSpec extends ObjectBehavior
         $newInstance->shouldBeAnInstanceOf(Specifications::class);
         $newInstance->count()->shouldBe(1);
         $this->count()->shouldBe(1);
-        $newInstance->shouldBe($this);
+        $newInstance->shouldBeLike($this);
     }
 
     public function it_returns_the_same_instance_if_no_specifications_can_be_removed(Specification $spec): void
@@ -74,7 +74,7 @@ final class SpecificationsSpec extends ObjectBehavior
         $newInstance->shouldBeAnInstanceOf(Specifications::class);
         $newInstance->count()->shouldBe(0);
         $this->count()->shouldBe(0);
-        $newInstance->shouldBe($this);
+        $newInstance->shouldBeLike($this);
     }
 
     public function it_can_map_all_instances(Specification $spec): void

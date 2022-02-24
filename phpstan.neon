@@ -3,5 +3,8 @@ includes:
 parameters:
   ignoreErrors:
   reportUnmatchedIgnoredErrors: true
+  level: max
+  paths:
+    - src
   excludePaths:
     - src/*Spec.php

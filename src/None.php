@@ -25,7 +25,7 @@ final class None implements Composite
         return $this->specifications;
     }
 
-    public function isSatisfiedBy($subject): bool
+    public function isSatisfiedBy(mixed $subject): bool
     {
         foreach ($this->specifications as $specification) {
             if (true === $specification->isSatisfiedBy($subject)) {

@@ -25,7 +25,7 @@ final class All implements Composite
         return $this->specifications;
     }
 
-    public function isSatisfiedBy($subject): bool
+    public function isSatisfiedBy(mixed $subject): bool
     {
         foreach ($this->specifications as $specification) {
             if (! $specification->isSatisfiedBy($subject)) {
