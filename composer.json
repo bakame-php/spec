@@ -16,18 +16,21 @@
   "autoload": {
     "psr-4": {
       "Bakame\\Specification\\": "src/"
-    }
+    },
+    "exclude-from-classmap": [
+      "src/**Spec.php"
+    ]
   },
   "require" : {
     "php": "^8.0"
   },
   "require-dev": {
     "friends-of-phpspec/phpspec-code-coverage": "^v6.1.0",
-    "friendsofphp/php-cs-fixer": "^3.0",
+    "friendsofphp/php-cs-fixer": "^v3.6.0",
     "phpspec/phpspec": "^7.1.0",
-    "phpstan/phpstan": "^1.0",
-    "phpstan/phpstan-strict-rules": "^1.0",
-    "vimeo/psalm": "^4.3"
+    "phpstan/phpstan": "^1.4.6",
+    "phpstan/phpstan-strict-rules": "^1.1.0",
+    "vimeo/psalm": "^4.21.0"
   },
   "scripts": {
     "phpcs": "php-cs-fixer fix -vvv --diff --dry-run --allow-risky=yes --ansi",
