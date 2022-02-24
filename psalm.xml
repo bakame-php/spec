@@ -11,6 +11,7 @@
         <ignoreFiles>
             <directory name="vendor" />
             <file name="src/*Spec.php" />
+            <file name="autoload.php" />
         </ignoreFiles>
     </projectFiles>
 </psalm>

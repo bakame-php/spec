@@ -69,12 +69,12 @@ final class SpecificationsSpec extends ObjectBehavior
 
     public function it_returns_the_same_instance_if_no_specifications_can_be_removed(Specification $spec): void
     {
-        $this->beConstructedThrough('fromList', []);
+        $this->beConstructedThrough('fromList', [$spec]);
         $newInstance = $this->withoutSpecification($spec);
         $newInstance->shouldBeAnInstanceOf(Specifications::class);
         $newInstance->count()->shouldBe(0);
-        $this->count()->shouldBe(0);
-        $newInstance->shouldBeLike($this);
+        $this->count()->shouldBe(1);
+        $newInstance->shouldNotBeLike($this);
     }
 
     public function it_can_map_all_instances(Specification $spec): void

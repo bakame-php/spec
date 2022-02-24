@@ -20,12 +20,11 @@ final class NoneSpec extends ObjectBehavior
 
     public function it_implements_the_specification_interface(): void
     {
-        $this->shouldBeAnInstanceOf(Specification::class);
+        $this->shouldImplement(Specification::class);
     }
 
     public function it_implements_the_composite_interface(): void
     {
-        $this->shouldBeAnInstanceOf(Composite::class);
         $this->specifications()->shouldBeAnInstanceOf(Specifications::class);
     }
 
