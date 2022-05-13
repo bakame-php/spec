@@ -105,14 +105,16 @@ foreach ($invoiceCollection as $invoice) {
 Under the hood the `Specification\Chain` class calls and uses the following classes
 to allow the implementations of complex business rules.
 
-| Classes | Logical usage                                                      | Chain methods                   |
-|---------|--------------------------------------------------------------------|---------------------------------|
-| All     | All specifications must be satisfied by the subject                | `Chain::all` named constructor  |
-| Any     | At least one of the specifications provided must be satisfied      | `Chain::any` named constructor  |
-| None    | None of all provided specification must be satisfied by the author | `Chain::none` named constructor |
-| AndX    | Combined two specifications where both must be satisfied           | `Chain::andX` method            |
-| OrX     | Combined two specifications where at least one must be satisfied   | `Chain::orX` method             |
-| Not     | Returns the opposite result of the provided specification          | `Chain::not` method             |
+| Classes | Logical usage                                                                                      | Chain methods                   |
+|---------|----------------------------------------------------------------------------------------------------|---------------------------------|
+| All     | All specifications must be satisfied by the subject                                                | `Chain::all` named constructor  |
+| AndX    | Combined two specifications where both must be satisfied                                           | `Chain::andX` method            |
+| AndNotX | Combined two specifications where the left specification is satisfied **and** the right one is not | `Chain::andNotX` method         |
+| Any     | At least one of the specifications provided must be satisfied                                      | `Chain::any` named constructor  |
+| None    | None of all provided specification must be satisfied by the author                                 | `Chain::none` named constructor |
+| Not     | Returns the opposite result of the provided specification                                          | `Chain::not` method             |
+| OrX     | Combined two specifications where at least one must be satisfied                                   | `Chain::orX` method             |
+| OrNotX  | Combined two specifications where the left specification is satisfied **or** the right one is not  | `Chain::orNotX` method          |
 
 Creating more complex rules that you can individually test becomes trivial as do their maintenance.
 

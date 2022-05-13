@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Bakame\Specification;
 
 final class Chain implements Composite
@@ -43,9 +45,19 @@ final class Chain implements Composite
         return new self(new AndX($this->specification, $specification));
     }
 
+    public function andNotX(Specification $specification): Composite
+    {
+        return new self(new AndNotX($this->specification, $specification));
+    }
+
     public function orX(Specification $specification): Composite
     {
         return new self(new OrX($this->specification, $specification));
+    }
+
+    public function orNotX(Specification $specification): Composite
+    {
+        return new self(new OrNotX($this->specification, $specification));
     }
 
     public function not(): Composite

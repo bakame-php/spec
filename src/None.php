@@ -14,7 +14,7 @@ use IteratorAggregate;
 final class None implements Specification, Countable, IteratorAggregate
 {
     /** @var array<Specification> */
-    protected array $specifications;
+    private array $specifications;
 
     final public function __construct(Specification ...$specifications)
     {

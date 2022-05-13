@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Bakame\Specification;
 
 final class AndX implements Specification
