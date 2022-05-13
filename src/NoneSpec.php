@@ -10,7 +10,7 @@ final class NoneSpec extends ObjectBehavior
 {
     public function let(Specification $spec): void
     {
-        $this->beConstructedThrough('from', [$spec]);
+        $this->beConstructedWith($spec);
     }
 
     public function it_is_initializable(): void
@@ -34,7 +34,7 @@ final class NoneSpec extends ObjectBehavior
     {
         $spec->isSatisfiedBy('anything')->willReturn(true);
 
-        $this->beConstructedThrough('fromList', [[$spec->getWrappedObject()]]);
+        $this->beConstructedWith($spec->getWrappedObject());
 
         $this->isSatisfiedBy('anything')->shouldEqual(false);
     }

@@ -20,17 +20,17 @@ final class Chain implements Composite
 
     public static function all(Specification ...$specification): self
     {
-        return new self(All::from(...$specification));
+        return new self(new All(...$specification));
     }
 
     public static function any(Specification ...$specification): self
     {
-        return new self(Any::from(...$specification));
+        return new self(new Any(...$specification));
     }
 
     public static function none(Specification ...$specification): self
     {
-        return new self(None::from(...$specification));
+        return new self(new None(...$specification));
     }
 
     public function isSatisfiedBy(mixed $subject): bool

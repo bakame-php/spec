@@ -10,7 +10,7 @@ final class AnySpec extends ObjectBehavior
 {
     public function let(Specification $spec1, Specification $spec2): void
     {
-        $this->beConstructedThrough('fromList', [[$spec1, $spec2]]);
+        $this->beConstructedWith($spec1, $spec2);
     }
 
     public function it_is_initializable(): void
@@ -36,9 +36,7 @@ final class AnySpec extends ObjectBehavior
         $spec1->isSatisfiedBy('anything')->willReturn(false);
         $spec2->isSatisfiedBy('anything')->willReturn(true);
 
-        $this->beConstructedThrough('fromList', [
-            [$spec1->getWrappedObject(), $spec2->getWrappedObject()],
-        ]);
+        $this->beConstructedWith($spec1->getWrappedObject(), $spec2->getWrappedObject());
 
         $this->isSatisfiedBy('anything')->shouldEqual(true);
     }
