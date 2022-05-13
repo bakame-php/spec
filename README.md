@@ -8,8 +8,6 @@ Implementing the Specification pattern in PHP
 [![Total Downloads](https://img.shields.io/packagist/dt/bakame/spec.svg?style=flat-square)](https://packagist.org/packages/bakame/spec)
 [![Sponsor development of this project](https://img.shields.io/badge/sponsor%20this%20package-%E2%9D%A4-ff69b4.svg?style=flat-square)](https://github.com/sponsors/nyamsprod)
 
-This is a fork of [kayladnls/spec](https://github.com/greydnls/spec).
-
 ### System Requirements
 
 You need:
@@ -42,12 +40,15 @@ use Bakame\Specification\Specification;
 
 final class OverDueSpecification implements Specification
 {
-    public function __construct(private DateTimeImmutable $date = new DateTimeImmutable('NOW', new DateTimeZone('UTC')))
+    public function __construct(
+        private DateTimeImmutable $date = new DateTimeImmutable('NOW', new DateTimeZone('UTC'))
+    ) {
+    }
 
     public function isSatisfiedBy(mixed $subject) : bool
     {
         return $subject instanceof Invoice
-            $$ $subject->getDueDate() < $this->date;
+            && $subject->getDueDate() < $this->date;
     }
 }
 ~~~
@@ -119,4 +120,51 @@ if ($noneSpec->isSatisfiedBy($elephpant)){
 }
 ~~~
 
-Happy Coding!
+Contributing
+-------
+
+Contributions are welcome and will be fully credited. Please see [CONTRIBUTING](.github/CONTRIBUTING.md) and [CODE OF CONDUCT](.github/CODE_OF_CONDUCT.md) for details.
+
+Testing
+-------
+
+The library:
+
+- has a [PHPSpec](http://phpspec.net/en/stable/) test suite
+- has a coding style compliance test suite using [PHP CS Fixer](https://cs.sensiolabs.org/).
+- has a code analysis compliance test suite using [PHPStan](https://phpstan.org/) and [Psalm](https://psalm.dev).
+
+To run the tests, run the following command from the project folder.
+
+``` bash
+$ composer test
+```
+
+Security
+-------
+
+If you discover any security related issues, please email nyamsprod@gmail.com instead of using the issue tracker.
+
+Credits
+-------
+
+- [ignace nyamagana butera](https://github.com/nyamsprod)
+- [All Contributors](https://github.com/bakame-php/spec/contributors)
+
+Attribution
+-------
+
+The package is a fork of the work of [greydnls](https://twitter.com/greydnls) on [greydnls/spec](https://github.com/gapple/structured-fields/).
+
+License
+-------
+
+The MIT License (MIT). Please see [License File](LICENSE) for more information.
+
+[1]: https://www.rfc-editor.org/rfc/rfc8941.html
+[2]: https://www.ietf.org/id/draft-ietf-httpbis-retrofit-00.html
+[3]: https://www.rfc-editor.org/rfc/rfc8941.html#section-3.3
+[4]: https://www.php-fig.org/psr/psr-4/
+
+
+This is a fork of [kayladnls/spec](https://github.com/greydnls/spec).
