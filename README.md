@@ -19,7 +19,7 @@ You need:
 composer require bakame/spec
 ```
 
-### What is it?
+### What is it ?
 
 > "the specification pattern is a particular software design pattern, 
 whereby business rules can be recombined by chaining the business 
@@ -28,8 +28,67 @@ the context of domain-driven design." -- [wikipedia](https://en.wikipedia.org/wi
 
 ### How do I use it?
 
-Each object added to a `Bakame\Specification\Composite` instance must implement
-the `Bakame\Specification\Specification` interface.
+Each object added to one of the logical instance must implement the `Bakame\Specification\Specification` interface.
+
+Here's a quick example. First you create your Specification implementing class.
+
+~~~php
+<?php
+
+use Bakame\Specification\Specification;
+
+final class OverDueSpecification implements Specification
+{
+    public function __construct(private DateTimeImmutable $date = new DateTimeImmutable('NOW', new DateTimeZone('UTC')))
+
+    public function isSatisfiedBy(mixed $subject) : bool
+    {
+        return $subject instanceof Invoice
+            $$ $subject->getDueDate() < $this->date;
+    }
+}
+~~~
+
+Then using the special `Bakame\Specification\Chain` class and all the specifications you have 
+created you can link all specification as needed. Here's how the Wikipedia example is adapted.
+
+~~~php
+<?php
+
+use Bakame\Specification\Chain;
+
+$overDue = new OverDueSpecification();
+$noticeSent = new NoticeSentSpecification();
+$inCollection = new InCollectionSpecification();
+
+// example of specification pattern logic chaining
+$sendToCollection = Chain::one($overDue)
+    ->andX($noticeSent)
+    ->andX(Chain::one($inCollection)->not());
+
+$invoiceCollection = $service->getInvoices();
+
+foreach ($invoiceCollection as $invoice) {
+    if ($sendToCollection->isSatisfiedBy($invoice))  {
+        $invoice->sendToCollection();
+    }
+}
+~~~
+
+Under the hood the `Specification\Chain` class calls and uses the following classes included 
+in the package to allow all types of combination of business rules to create or 
+implements complex decision like rules.
+
+| Classes | Logical usage                                                      | Chain methods                   |
+|---------|--------------------------------------------------------------------|---------------------------------|
+| All     | All specifications must be satisfied by the subject                | `Chain::all` named constructor  |
+| AndX    | Combined two specifications where both must be satisfied           | `Chain::andX` method            |
+| Any     | At least one of the specifications provided must be satisfied      | `Chain::any` named constructor  |
+| None    | None of all provided specification must be satisfied by the author | `Chain::none` named constructor |
+| OrX     | Combined two specifications where at least one must be satisfied   | `Chain::orX` method             |
+| Not     | Returns the opposite result of the provided specification          | `Chain::not` method             |
+
+Creating your own specification is straightforward as you can see below.
 
 ~~~php
 <?php
@@ -37,13 +96,11 @@ the `Bakame\Specification\Specification` interface.
 use App\Specification\MustHaveFourLegs;
 use App\Specification\MustHaveStripes;
 use App\Specification\IsLizard;
-use Bakame\Specification\All;
-use Bakame\Specification\Any;
-use Bakame\Specification\None;
+use Bakame\Specification;
 
-$allSpecs = All::fromList(...[new MustHaveFourLegs(), new MustHaveStripes()]);
-$anySpec = Any::fromList(new IsLizard(), $allSpecs);
-$noneSpec = None::fromList(new IsLizard(), new MustHaveStripes());
+$allSpecs = Chain::all(new MustHaveFourLegs(), new MustHaveStripes());
+$anySpec = $allSpecs->orX(new IsLizard());
+$noneSpec = Chain::all(new IsLizard(), new MustHaveStripes())->not();
 
 if ($allSpecs->isSatisfiedBy($zebra)) {
     // Do some cool Zebra stuff here. 

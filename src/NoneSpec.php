@@ -10,7 +10,7 @@ final class NoneSpec extends ObjectBehavior
 {
     public function let(Specification $spec): void
     {
-        $this->beConstructedThrough('fromList', [$spec]);
+        $this->beConstructedThrough('from', [$spec]);
     }
 
     public function it_is_initializable(): void
@@ -21,11 +21,6 @@ final class NoneSpec extends ObjectBehavior
     public function it_implements_the_specification_interface(): void
     {
         $this->shouldImplement(Specification::class);
-    }
-
-    public function it_implements_the_composite_interface(): void
-    {
-        $this->specifications()->shouldBeAnInstanceOf(Specifications::class);
     }
 
     public function it_will_pass_with_a_false(Specification $spec): void
@@ -39,7 +34,7 @@ final class NoneSpec extends ObjectBehavior
     {
         $spec->isSatisfiedBy('anything')->willReturn(true);
 
-        $this->beConstructedThrough('fromSpecifications', [Specifications::fromList($spec->getWrappedObject())]);
+        $this->beConstructedThrough('fromList', [[$spec->getWrappedObject()]]);
 
         $this->isSatisfiedBy('anything')->shouldEqual(false);
     }

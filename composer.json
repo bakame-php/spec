@@ -37,7 +37,7 @@
     "phpcs:fix": "php-cs-fixer fix -vvv --allow-risky=yes --ansi",
     "phpstan": "phpstan analyse -c phpstan.neon --ansi",
     "psalm": "psalm --show-info=true",
-    "phpspec": "phpspec run",
+    "phpspec": " XDEBUG_MODE=coverage phpspec run",
     "test": [
       "@phpspec",
       "@psalm",
