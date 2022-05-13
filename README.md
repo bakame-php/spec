@@ -29,9 +29,9 @@ the context of domain-driven design." -- [wikipedia](https://en.wikipedia.org/wi
 
 ### How do I use it?
 
-Each object added to one of the logical instance must implement the `Bakame\Specification\Specification` interface.
+Each rule that needs to be used MUST implement the `Bakame\Specification\Specification` interface.
 
-Here's a quick example. First you create your Specification implementing class.
+Here's a quick example. First, create a specification implementing class.
 
 ~~~php
 <?php
@@ -53,8 +53,9 @@ final class OverDueSpecification implements Specification
 }
 ~~~
 
-Then using the special `Bakame\Specification\Chain` class and all the specifications you have 
-created you can link all specification as needed. 
+Then using the decorator class `Bakame\Specification\Chain` and all the specifications 
+created, it becomes straightforward to logically apply all the specification 
+as expected by your business rules. 
 
 Here's how the Wikipedia page example is adapted using the library.
 
@@ -87,13 +88,13 @@ to allow the implementations of complex business rules.
 | Classes | Logical usage                                                      | Chain methods                   |
 |---------|--------------------------------------------------------------------|---------------------------------|
 | All     | All specifications must be satisfied by the subject                | `Chain::all` named constructor  |
-| AndX    | Combined two specifications where both must be satisfied           | `Chain::andX` method            |
 | Any     | At least one of the specifications provided must be satisfied      | `Chain::any` named constructor  |
 | None    | None of all provided specification must be satisfied by the author | `Chain::none` named constructor |
+| AndX    | Combined two specifications where both must be satisfied           | `Chain::andX` method            |
 | OrX     | Combined two specifications where at least one must be satisfied   | `Chain::orX` method             |
 | Not     | Returns the opposite result of the provided specification          | `Chain::not` method             |
 
-Creating your own specification is straightforward as you can see below.
+Creating more complex rules that you can individually test becomes trivial as do their maintenance.
 
 ~~~php
 <?php
@@ -101,7 +102,7 @@ Creating your own specification is straightforward as you can see below.
 use App\Specification\MustHaveFourLegs;
 use App\Specification\MustHaveStripes;
 use App\Specification\IsLizard;
-use Bakame\Specification;
+use Bakame\Specification\Chain;
 
 $allSpecs = Chain::all(new MustHaveFourLegs(), new MustHaveStripes());
 $anySpec = $allSpecs->orX(new IsLizard());
