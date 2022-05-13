@@ -1,9 +1,12 @@
 # Spec
 
-A Simple Specification library for PHP
+Implementing the Specification pattern in PHP
 
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 [![Build](https://github.com/bakame-php/spec/workflows/build/badge.svg)](https://github.com/bakame-php/spec/actions?query=workflow%3A%22build%22)
+[![Latest Version](https://img.shields.io/github/release/bakame-php/spec.svg?style=flat-square)](https://github.com/bakame-php/spec/releases)
+[![Total Downloads](https://img.shields.io/packagist/dt/bakame/spec.svg?style=flat-square)](https://packagist.org/packages/bakame/spec)
+[![Sponsor development of this project](https://img.shields.io/badge/sponsor%20this%20package-%E2%9D%A4-ff69b4.svg?style=flat-square)](https://github.com/sponsors/nyamsprod)
 
 This is a fork of [kayladnls/spec](https://github.com/greydnls/spec).
 
@@ -50,7 +53,9 @@ final class OverDueSpecification implements Specification
 ~~~
 
 Then using the special `Bakame\Specification\Chain` class and all the specifications you have 
-created you can link all specification as needed. Here's how the Wikipedia example is adapted.
+created you can link all specification as needed. 
+
+Here's how the Wikipedia page example is adapted using the library.
 
 ~~~php
 <?php
@@ -75,9 +80,8 @@ foreach ($invoiceCollection as $invoice) {
 }
 ~~~
 
-Under the hood the `Specification\Chain` class calls and uses the following classes included 
-in the package to allow all types of combination of business rules to create or 
-implements complex decision like rules.
+Under the hood the `Specification\Chain` class calls and uses the following classes
+to allow the implementations of complex business rules.
 
 | Classes | Logical usage                                                      | Chain methods                   |
 |---------|--------------------------------------------------------------------|---------------------------------|

@@ -12,6 +12,12 @@
       "email": "nyamsprod@gmail.com"
     }
   ],
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/nyamsprod"
+    }
+  ],
   "minimum-stability": "stable",
   "autoload": {
     "psr-4": {
@@ -26,11 +32,11 @@
   },
   "require-dev": {
     "friends-of-phpspec/phpspec-code-coverage": "^v6.1.0",
-    "friendsofphp/php-cs-fixer": "^v3.6.0",
-    "phpspec/phpspec": "^7.1.0",
-    "phpstan/phpstan": "^1.4.6",
-    "phpstan/phpstan-strict-rules": "^1.1.0",
-    "vimeo/psalm": "^4.21.0"
+    "friendsofphp/php-cs-fixer": "^v3.8.0",
+    "phpspec/phpspec": "^7.2.0",
+    "phpstan/phpstan": "^1.6.8",
+    "phpstan/phpstan-strict-rules": "^1.2.3",
+    "vimeo/psalm": "^4.23.0"
   },
   "scripts": {
     "phpcs": "php-cs-fixer fix -vvv --diff --dry-run --allow-risky=yes --ansi",
