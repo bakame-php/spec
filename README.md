@@ -8,28 +8,48 @@ Implementing the Specification pattern in PHP
 [![Total Downloads](https://img.shields.io/packagist/dt/bakame/spec.svg?style=flat-square)](https://packagist.org/packages/bakame/spec)
 [![Sponsor development of this project](https://img.shields.io/badge/sponsor%20this%20package-%E2%9D%A4-ff69b4.svg?style=flat-square)](https://github.com/sponsors/nyamsprod)
 
-### System Requirements
+System Requirements
+------------
 
 You need:
 
 - **PHP >= 8.0** but the latest stable version of PHP is recommended
 
-### Installation
+Installation
+------------
+
+Use composer:
 
 ```
 composer require bakame/spec
 ```
 
-### What is it ?
+or download the library and:
+
+- use any other [PSR-4][4] compatible autoloader.
+- use the bundle autoloader script as shown below:
+
+~~~php
+require 'path/to/spec/repo/autoload.php';
+
+use Bakame\Http\Specification\Chain;
+
+$spec = Chain::one(new Rule())->andX(new Rule2());
+$spec->isSatisfiedBy($subject);
+~~~
+
+What is it ?
+------------
 
 > "the specification pattern is a particular software design pattern, 
 whereby business rules can be recombined by chaining the business 
 rules together using boolean logic. The pattern is frequently used in 
 the context of domain-driven design." -- [wikipedia](https://en.wikipedia.org/wiki/Specification_pattern)
 
-### How do I use it?
+How do I use it?
+------------
 
-Each rule that needs to be used MUST implement the `Bakame\Specification\Specification` interface.
+Each rule that needs to be validated MUST implement the `Bakame\Specification\Specification` interface.
 
 Here's a quick example. First, create a specification implementing class.
 
