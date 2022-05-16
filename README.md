@@ -1,8 +1,12 @@
-# Spec
+# Complex Specifications Pattern in PHP
 
-Implementing the Specification pattern in PHP
+This package adds support for the Specification pattern in PHP. It helps to leverage complex
+specification by offloading all the tedious work. Implementing specification pattern is made simpler
+while leaves all logical wiring to the package.
 
-[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
+While framework independent, you can easily integrate this package inside any PHP framework.
+
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 [![Build](https://github.com/bakame-php/spec/workflows/build/badge.svg)](https://github.com/bakame-php/spec/actions?query=workflow%3A%22build%22)
 [![Latest Version](https://img.shields.io/github/release/bakame-php/spec.svg?style=flat-square)](https://github.com/bakame-php/spec/releases)
 [![Total Downloads](https://img.shields.io/packagist/dt/bakame/spec.svg?style=flat-square)](https://packagist.org/packages/bakame/spec)
@@ -32,7 +36,7 @@ or download the library and:
 ~~~php
 require 'path/to/spec/repo/autoload.php';
 
-use Bakame\Http\Specification\Chain;
+use Bakame\Specification\Chain;
 
 $spec = Chain::one(new Rule1())
     ->and(new Rule2(), new Rule3())
@@ -49,12 +53,17 @@ whereby business rules can be recombined by chaining the business
 rules together using boolean logic. The pattern is frequently used in 
 the context of domain-driven design." -- [wikipedia](https://en.wikipedia.org/wiki/Specification_pattern)
 
-How do I use it?
+Usage
 ------------
 
-Each rule that needs to be validated MUST implement the `Bakame\Specification\Specification` interface.
+Each rule that needs to be satisfied MUST implement the `Bakame\Specification\Specification` interface.
 
-Here's a quick example. First, create a specification implementing class.
+This interface only contains one method `isSatisfiedBy(mixed $subject): bool`. The method should
+not `throw` but if it does no mechanism **MUST** stop the exception from propagating outside the method.
+
+Here's a quick example to illustrate the package usage.
+
+First, we create a specification implementing class.
 
 ~~~php
 <?php
@@ -76,9 +85,8 @@ final class OverDueSpecification implements Specification
 }
 ~~~
 
-Then using the decorator/builder class `Bakame\Specification\Chain` and all the specifications 
-created, it becomes straightforward to logically apply all the specification 
-as expected by your business rules. 
+Then using the `Bakame\Specification\Chain` class and all the specifications 
+created, we apply all the specifications according to the business rules. 
 
 Here's how the [wikipedia example](https://en.wikipedia.org/wiki/Specification_pattern#Example_of_use) is adapted using the library.
 
@@ -91,21 +99,18 @@ $overDue = new OverDueSpecification();
 $noticeSent = new NoticeSentSpecification();
 $inCollection = new InCollectionSpecification();
 
-// example of specification pattern logic chaining
 $sendToCollection = Chain::one($overDue)
     ->and($noticeSent)
     ->andNot($inCollection);
 
-$invoiceCollection = $service->getInvoices();
-
-foreach ($invoiceCollection as $invoice) {
-    if ($sendToCollection->isSatisfiedBy($invoice))  {
+foreach ($service->getInvoices() as $invoice) {
+    if ($sendToCollection->isSatisfiedBy($invoice)) {
         $invoice->sendToCollection();
     }
 }
 ~~~
 
-The `Bakame\Specification\Chain` class exposes the following logical methods
+The `Bakame\Specification\Chain` class exposes the following logical chaining methods
 
 | Logical methods | `isSatisfiedBy` will return true                                                  | 
 |-----------------|-----------------------------------------------------------------------------------|
@@ -125,9 +130,87 @@ To initiate a new specification logic chain the class exposes 4 named constructo
 | `Chain::none`     | with all specifications attach to it like `Chain::not` |
 
 All the methods from the  `Bakame\Specification\Chain` accept variadic `Bakame\Specification\Specification` implemented classes
-except for the `Chain::not` method.
+except for the `Chain::not` method which takes not parameter at all.
 
 Creating more complex rules that you can individually test becomes trivial as do their maintenance.
+
+Tips on how to validate a list of subject.
+----
+
+### Array
+
+To filter an array of subjects you can use the `array_filter` function
+
+```php
+<?php
+$invoiceCollection = array_filter(
+    fn (Invoice $invoice): bool => $sendToCollection->isSatisfiedBy($invoice),
+    $respository->getInvoices()
+);
+
+foreach ($invoiceCollection as $invoice) {
+    $invoice->sendToCollection();
+}
+```
+
+### Traversable
+
+To filter a traversable structure or a generic iterator you can use the `CallbackFilterIterator` class.
+
+```php
+<?php
+$invoiceCollection = new CallbackFilterIterator(
+    $respository->getInvoices(),
+    fn (Invoice $invoice): bool => $sendToCollection->isSatisfiedBy($invoice),
+);
+
+foreach ($invoiceCollection as $invoice) {
+    $invoice->sendToCollection();
+}
+```
+
+### Collections
+
+The package can be used directly on collection that supports the `filter` method like `Doctrine` collection classes.
+
+```php
+<?php
+$invoiceCollection = $respository->getInvoices()->filter(
+    fn (Invoice $invoice): bool => $sendToCollection->isSatisfiedBy($invoice)
+);
+
+foreach ($invoiceCollection as $invoice) {
+    $invoice->sendToCollection();
+}
+```
+
+### Collection Macro
+
+An alternative for Laravel collections is to register a macro:
+
+```php
+<?php
+
+declare(strict_types=1);
+
+use Bakame\Specification\Specification;
+use Illuminate\Support\Collection;
+
+Collection::macro('satisfies', fn (Specification $specification): Collection =>
+    $this->filter(
+        fn ($item): bool => $specification->isSatisfiedBy($item);
+    )
+);
+```
+
+And then be used as described below:
+
+```php
+$invoiceCollection = $invoices->all()->satifies($sendToCollection);
+foreach ($invoiceCollection as $invoice) {
+    $invoice->sendToCollection();
+}
+```
 
 Contributing
 -------
