@@ -76,11 +76,11 @@ final class OverDueSpecification implements Specification
 }
 ~~~
 
-Then using the decorator class `Bakame\Specification\Chain` and all the specifications 
+Then using the decorator/builder class `Bakame\Specification\Chain` and all the specifications 
 created, it becomes straightforward to logically apply all the specification 
 as expected by your business rules. 
 
-Here's how the Wikipedia page example is adapted using the library.
+Here's how the [wikipedia example](https://en.wikipedia.org/wiki/Specification_pattern#Example_of_use) is adapted using the library.
 
 ~~~php
 <?php
@@ -107,56 +107,27 @@ foreach ($invoiceCollection as $invoice) {
 
 The `Bakame\Specification\Chain` class exposes the following logical methods
 
-- `Chain::and` the resulting `isSatisfiedBy` will return true if the current specification and the those added are all satisfied
-- `Chain::or` the resulting `isSatisfiedBy` will return true if the at least one of the specifications is satisfied
-- `Chain::andNot` the resulting `isSatisfiedBy` will return true if the current specification is satisfied AND the ones added are not
-- `Chain::orNot` the resulting `isSatisfiedBy` will return true if the current specification is satisfied OR the ones added are not
-- `Chain::not` the resulting `isSatisfiedBy` will return the opposite of the current specification.
+| Logical methods | `isSatisfiedBy` will return true                                                  | 
+|-----------------|-----------------------------------------------------------------------------------|
+| `Chain::and`    | if the resulting  the current specification and the those added are all satisfied |
+| `Chain::or`     | if at least one of the specifications is satisfied                                |
+| `Chain::andNot` | if the current specification is satisfied AND the ones added are not              |
+| `Chain::orNot`  | if the current specification is satisfied OR the ones added are not               |
+| `Chain::not`    | will return the opposite of the current specification                             |
 
 To initiate a new specification logic chain the class exposes 4 named constructors
 
-- `Chain::one` returns a new instance with a specification attach to it
-- `Chain::all` returns a new instance with all specifications attach to it like `Chain::and`
-- `Chain::any` returns a new instance with all specifications attach to it like `Chain::or`
-- `Chain::none` returns a new instance with all specifications attach to it like `Chain::not`
+| Named constructor | returned instance                                      | 
+|-------------------|--------------------------------------------------------|
+| `Chain::one`      | new instance with a specification attach to it         |
+| `Chain::all`      | with all specifications attach to it like `Chain::and` |
+| `Chain::any`      | with all specifications attach to it like `Chain::or`  |
+| `Chain::none`     | with all specifications attach to it like `Chain::not` |
 
-Under the hood the `Bakame\Specification\Chain` class calls and uses the following classes
-to allow the implementations of complex business rules.
-
-| Classes                     | Logical usage                                                      | 
-|-----------------------------|--------------------------------------------------------------------|
-| `Bakame\Specification\All`  | All specifications must be satisfied by the subject                |
-| `Bakame\Specification\Any`  | At least one of the specifications provided must be satisfied      |
-| `Bakame\Specification\None` | None of all provided specification must be satisfied by the author |
-
-All the logical methods from the  `Bakame\Specification\Chain` accept variadic `Bakame\Specification\Specification` implemented classes.
+All the methods from the  `Bakame\Specification\Chain` accept variadic `Bakame\Specification\Specification` implemented classes
+except for the `Chain::not` method.
 
 Creating more complex rules that you can individually test becomes trivial as do their maintenance.
-
-~~~php
-<?php
-
-use App\Specification\MustHaveFourLegs;
-use App\Specification\MustHaveStripes;
-use App\Specification\IsLizard;
-use Bakame\Specification\Chain;
-
-$allSpecs = Chain::one(new MustHaveFourLegs())->and(new MustHaveStripes());
-$anySpec = $allSpecs->or(new IsLizard());
-$noneSpec = Chain::none(new IsLizard(), new MustHaveStripes());
-
-if ($allSpecs->isSatisfiedBy($zebra)) {
-    // Do some cool Zebra stuff here. 
-} 
-
-if ($anySpec->isSatisfiedBy($iguana)) {
-    // Do some cool stuff with the Iguana too.
-}
-
-if ($noneSpec->isSatisfiedBy($elephpant)){ 
-    //Elephpant only loves PHP!
-}
-~~~
 
 Contributing
 -------
@@ -192,7 +163,7 @@ Credits
 Attribution
 -------
 
-The package is a fork of the work of [greydnls](https://twitter.com/greydnls) on [greydnls/spec](https://github.com/gapple/structured-fields/).
+The package is a fork of the work of [greydnls](https://twitter.com/greydnls) on [greydnls/spec](https://github.com/greydnls/spec).
 
 License
 -------

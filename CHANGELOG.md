@@ -18,7 +18,7 @@ All Notable changes to `bakame/spec` will be documented in this file
 
 ### Removed
 
-- `AndNotX`, `AndX`, `OrX`, `OrNotX` classes without replacements
+- `AndNotX`, `AndX`, `OrX`, `OrNotX`, `Not` classes without replacements you can emulate them via the `Chain` class usage
 - `Chain::andX`, `Chain::andNotX`, `Chain::orX`, `Chain::orNotX` methods replaced by
   `Chain::and`, `Chain::andNot`, `Chain::or`, `Chain::orNot` methods
 
