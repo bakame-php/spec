@@ -26,7 +26,7 @@ composer require bakame/spec
 
 or download the library and:
 
-- use any other [PSR-4][4] compatible autoloader.
+- use any other [PSR-4](https://www.php-fig.org/psr/psr-4/) compatible autoloader.
 - use the bundle autoloader script as shown below:
 
 ~~~php
@@ -34,7 +34,10 @@ require 'path/to/spec/repo/autoload.php';
 
 use Bakame\Http\Specification\Chain;
 
-$spec = Chain::one(new Rule())->andX(new Rule2());
+$spec = Chain::one(new Rule1())
+    ->and(new Rule2(), new Rule3())
+    ->orNot(new Rule4());
+
 $spec->isSatisfiedBy($subject);
 ~~~
 
@@ -90,8 +93,8 @@ $inCollection = new InCollectionSpecification();
 
 // example of specification pattern logic chaining
 $sendToCollection = Chain::one($overDue)
-    ->andX($noticeSent)
-    ->andX(Chain::one($inCollection)->not());
+    ->and($noticeSent)
+    ->andNot($inCollection);
 
 $invoiceCollection = $service->getInvoices();
 
@@ -102,19 +105,31 @@ foreach ($invoiceCollection as $invoice) {
 }
 ~~~
 
-Under the hood the `Specification\Chain` class calls and uses the following classes
+The `Bakame\Specification\Chain` class exposes the following logical methods
+
+- `Chain::and` the resulting `isSatisfiedBy` will return true if the current specification and the those added are all satisfied
+- `Chain::or` the resulting `isSatisfiedBy` will return true if the at least one of the specifications is satisfied
+- `Chain::andNot` the resulting `isSatisfiedBy` will return true if the current specification is satisfied AND the ones added are not
+- `Chain::orNot` the resulting `isSatisfiedBy` will return true if the current specification is satisfied OR the ones added are not
+- `Chain::not` the resulting `isSatisfiedBy` will return the opposite of the current specification.
+
+To initiate a new specification logic chain the class exposes 4 named constructors
+
+- `Chain::one` returns a new instance with a specification attach to it
+- `Chain::all` returns a new instance with all specifications attach to it like `Chain::and`
+- `Chain::any` returns a new instance with all specifications attach to it like `Chain::or`
+- `Chain::none` returns a new instance with all specifications attach to it like `Chain::not`
+
+Under the hood the `Bakame\Specification\Chain` class calls and uses the following classes
 to allow the implementations of complex business rules.
 
-| Classes | Logical usage                                                                                      | Chain methods                   |
-|---------|----------------------------------------------------------------------------------------------------|---------------------------------|
-| All     | All specifications must be satisfied by the subject                                                | `Chain::all` named constructor  |
-| AndX    | Combined two specifications where both must be satisfied                                           | `Chain::andX` method            |
-| AndNotX | Combined two specifications where the left specification is satisfied **and** the right one is not | `Chain::andNotX` method         |
-| Any     | At least one of the specifications provided must be satisfied                                      | `Chain::any` named constructor  |
-| None    | None of all provided specification must be satisfied by the author                                 | `Chain::none` named constructor |
-| Not     | Returns the opposite result of the provided specification                                          | `Chain::not` method             |
-| OrX     | Combined two specifications where at least one must be satisfied                                   | `Chain::orX` method             |
-| OrNotX  | Combined two specifications where the left specification is satisfied **or** the right one is not  | `Chain::orNotX` method          |
+| Classes                     | Logical usage                                                      | 
+|-----------------------------|--------------------------------------------------------------------|
+| `Bakame\Specification\All`  | All specifications must be satisfied by the subject                |
+| `Bakame\Specification\Any`  | At least one of the specifications provided must be satisfied      |
+| `Bakame\Specification\None` | None of all provided specification must be satisfied by the author |
+
+All the logical methods from the  `Bakame\Specification\Chain` accept variadic `Bakame\Specification\Specification` implemented classes.
 
 Creating more complex rules that you can individually test becomes trivial as do their maintenance.
 
@@ -126,9 +141,9 @@ use App\Specification\MustHaveStripes;
 use App\Specification\IsLizard;
 use Bakame\Specification\Chain;
 
-$allSpecs = Chain::all(new MustHaveFourLegs(), new MustHaveStripes());
-$anySpec = $allSpecs->orX(new IsLizard());
-$noneSpec = Chain::all(new IsLizard(), new MustHaveStripes())->not();
+$allSpecs = Chain::one(new MustHaveFourLegs())->and(new MustHaveStripes());
+$anySpec = $allSpecs->or(new IsLizard());
+$noneSpec = Chain::none(new IsLizard(), new MustHaveStripes());
 
 if ($allSpecs->isSatisfiedBy($zebra)) {
     // Do some cool Zebra stuff here. 
@@ -183,11 +198,3 @@ License
 -------
 
 The MIT License (MIT). Please see [License File](LICENSE) for more information.
-
-[1]: https://www.rfc-editor.org/rfc/rfc8941.html
-[2]: https://www.ietf.org/id/draft-ietf-httpbis-retrofit-00.html
-[3]: https://www.rfc-editor.org/rfc/rfc8941.html#section-3.3
-[4]: https://www.php-fig.org/psr/psr-4/
-
-
-This is a fork of [kayladnls/spec](https://github.com/greydnls/spec).

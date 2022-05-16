@@ -40,28 +40,28 @@ final class Chain implements Composite
         return $this->specification->isSatisfiedBy($subject);
     }
 
-    public function andX(Specification $specification): Composite
+    public function and(Specification ...$specification): Composite
     {
-        return new self(new AndX($this->specification, $specification));
+        return new self(new All($this->specification, ...$specification));
     }
 
-    public function andNotX(Specification $specification): Composite
+    public function andNot(Specification ...$specification): Composite
     {
-        return new self(new AndNotX($this->specification, $specification));
+        return new self(new All($this->specification, new None(...$specification)));
     }
 
-    public function orX(Specification $specification): Composite
+    public function or(Specification ...$specification): Composite
     {
-        return new self(new OrX($this->specification, $specification));
+        return new self(new Any($this->specification, ...$specification));
     }
 
-    public function orNotX(Specification $specification): Composite
+    public function orNot(Specification ...$specification): Composite
     {
-        return new self(new OrNotX($this->specification, $specification));
+        return new self(new Any($this->specification, new None(...$specification)));
     }
 
     public function not(): Composite
     {
-        return new self(new Not($this->specification));
+        return new self(new None($this->specification));
     }
 }

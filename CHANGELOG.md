@@ -2,6 +2,26 @@
 
 All Notable changes to `bakame/spec` will be documented in this file
 
+## [Next] - TBD
+
+### Added
+
+- `Chain::and`, `Chain::andNot`, `Chain::or`, `Chain::orNot` methods
+
+### Fixed
+
+- All `Chain` methods now accepts variadic `Specification`.
+
+### Deprecated
+
+- none
+
+### Removed
+
+- `AndNotX`, `AndX`, `OrX`, `OrNotX` classes without replacements
+- `Chain::andX`, `Chain::andNotX`, `Chain::orX`, `Chain::orNotX` methods replaced by
+  `Chain::and`, `Chain::andNot`, `Chain::or`, `Chain::orNot` methods
+
 ## [1.1.0] - 2022-05-13
 
 ### Added
