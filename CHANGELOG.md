@@ -2,7 +2,7 @@
 
 All Notable changes to `bakame/spec` will be documented in this file
 
-## [Next] - TBD
+## [2.0.0] - 2022-05-16
 
 ### Added
 
@@ -64,6 +64,7 @@ All Notable changes to `bakame/spec` will be documented in this file
 
 **Initial release!**
 
+[2.0.0]: https://github.com/bakame-php/spec/compare/1.1.0...2.0.0
 [1.1.0]: https://github.com/bakame-php/spec/compare/1.0.1...1.1.0
 [1.0.1]: https://github.com/bakame-php/spec/compare/1.0.0...1.0.1
 [1.0.0]: https://github.com/bakame-php/spec/releases/tag/1.0.0
