@@ -7,7 +7,7 @@ namespace Bakame\Specification;
 interface Specification
 {
     /**
-     * @param mixed $subject the item that needs to be validated
+     * Returns true if the subject satisfies the specification or false otherwise.
      */
     public function isSatisfiedBy(mixed $subject): bool;
 }
