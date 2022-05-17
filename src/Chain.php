@@ -42,26 +42,26 @@ final class Chain implements Composite
 
     public function and(Specification ...$specification): Composite
     {
-        return new self(new All($this->specification, ...$specification));
+        return self::all($this->specification, ...$specification);
     }
 
     public function andNot(Specification ...$specification): Composite
     {
-        return new self(new All($this->specification, new None(...$specification)));
+        return self::all($this->specification, new None(...$specification));
     }
 
     public function or(Specification ...$specification): Composite
     {
-        return new self(new Any($this->specification, ...$specification));
+        return self::any($this->specification, ...$specification);
     }
 
     public function orNot(Specification ...$specification): Composite
     {
-        return new self(new Any($this->specification, new None(...$specification)));
+        return self::any($this->specification, new None(...$specification));
     }
 
     public function not(): Composite
     {
-        return new self(new None($this->specification));
+        return self::none($this->specification);
     }
 }
