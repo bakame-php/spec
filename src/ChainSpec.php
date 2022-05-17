@@ -57,4 +57,13 @@ final class ChainSpec extends ObjectBehavior
     {
         $this->not()->specification()->shouldBeLike(new None($spec->getWrappedObject()));
     }
+
+    public function it_can_check_specification_validity(Specification $spec, Specification $spec2): void
+    {
+        $spec->isSatisfiedBy('anything')->willReturn(true);
+        $spec2->isSatisfiedBy('anything')->willReturn(false);
+
+        $this->andNot($spec2)->specification()->shouldBeLike(new All($spec->getWrappedObject(), new None($spec2->getWrappedObject())));
+        $this->isSatisfiedBy('anything')->shouldEqual(true);
+    }
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Bakame\Specification;
 
+use Countable;
+use IteratorAggregate;
 use PhpSpec\ObjectBehavior;
 
 final class AnySpec extends ObjectBehavior
@@ -22,6 +24,18 @@ final class AnySpec extends ObjectBehavior
     {
         $this->shouldImplement(Specification::class);
     }
+
+    public function it_implements_the_count_interface(): void
+    {
+        $this->shouldImplement(Countable::class);
+        $this->count()->shouldBe(2);
+    }
+
+    public function it_implements_the_iterator_aggregate_interface(): void
+    {
+        $this->shouldImplement(IteratorAggregate::class);
+    }
+
 
     public function it_will_pass_with_two_true_values(Specification $spec1, Specification $spec2): void
     {
