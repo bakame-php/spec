@@ -31,9 +31,7 @@ final class All implements Specification, Countable, IteratorAggregate
      */
     public function getIterator(): Iterator
     {
-        foreach ($this as $specification) {
-            yield $specification;
-        }
+        yield from $this->specifications;
     }
 
     public function isSatisfiedBy(mixed $subject): bool
