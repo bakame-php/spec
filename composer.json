@@ -36,7 +36,7 @@
     "phpspec/phpspec": "^7.2.0",
     "phpstan/phpstan": "^1.6.8",
     "phpstan/phpstan-strict-rules": "^1.2.3",
-    "vimeo/psalm": "^4.23.0"
+    "vimeo/psalm": "^5.1.0"
   },
   "scripts": {
     "phpcs": "php-cs-fixer fix -vvv --diff --dry-run --allow-risky=yes --ansi",
