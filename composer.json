@@ -31,7 +31,7 @@
     "php": "^8.0"
   },
   "require-dev": {
-    "friends-of-phpspec/phpspec-code-coverage": "^v6.1.0",
+    "friends-of-phpspec/phpspec-code-coverage": "^v7.0.0",
     "friendsofphp/php-cs-fixer": "^v3.8.0",
     "phpspec/phpspec": "^7.3.0",
     "phpstan/phpstan": "^1.9.14",
